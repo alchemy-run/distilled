@@ -1,45 +1,329 @@
 # effect-aws
 
-An **Effect-native AWS SDK** generated directly from [Smithy](https://smithy.io) specifications. Built with [Effect Schema](https://effect.website/docs/schema/introduction) and [Effect Platform](https://effect.website/docs/platform/introduction), this SDK brings full type-safety, composability, and streaming support to AWS API operations.
+A fully typed AWS SDK for [Effect](https://effect.website), generated from [Smithy](https://smithy.io) specifications.
 
 ## Features
 
-- **Generated from Smithy specs** — Auto-generated from AWS's official [Smithy models](https://github.com/aws/aws-models), ensuring 1:1 compatibility with AWS APIs
-- **Effect-native** — Operations return `Effect` computations with typed errors, automatic retries, and interruption support
-- **Schema-driven** — All request/response shapes are Effect Schemas with automatic validation and transformation
-- **Smithy traits as annotations** — HTTP bindings, XML/JSON serialization, timestamps, and more are modeled as Effect Schema annotations
-- **Full protocol support** — Implements all five AWS protocols: REST-XML, REST-JSON, AWS JSON 1.0/1.1, AWS Query, and EC2 Query
-- **Streaming support** — First-class support for streaming uploads and downloads via Effect Streams
-- **Tree-shakeable** — Protocol implementations are embedded in service annotations for optimal bundle size
+- **Generated from Smithy specs** — 1:1 compatibility with AWS APIs
+- **Typed errors** — All service errors are `TaggedError` classes for pattern matching
+- **Streaming support** — Upload and download large files via Effect Streams
+- **All AWS protocols** — REST-XML, REST-JSON, AWS JSON 1.0/1.1, AWS Query, EC2 Query
 
 ## Installation
 
 ```bash
-bun add effect-aws effect
+npm install effect-aws effect @effect/platform
+# or
+bun add effect-aws effect @effect/platform
 ```
 
 ## Quick Start
 
 ```typescript
-import * as Effect from "effect/Effect";
-import { S3 } from "effect-aws/s3";
-import { Credentials, NodeProviderChainCredentialsLive, Region } from "effect-aws";
+import { Effect } from "effect";
+import { FetchHttpClient } from "@effect/platform";
+import * as s3 from "effect-aws/s3";
+import { Credentials, Region } from "effect-aws";
 
-// Call the operation
-const program = S3.getObject({
-  Bucket: "my-bucket",
-  Key: "hello.txt",
+const program = Effect.gen(function* () {
+  // Upload a file
+  yield* s3.putObject({
+    Bucket: "my-bucket",
+    Key: "hello.txt",
+    Body: "Hello, World!",
+    ContentType: "text/plain",
+  });
+
+  // Download a file
+  const result = yield* s3.getObject({
+    Bucket: "my-bucket",
+    Key: "hello.txt",
+  });
+
+  return result.ContentType; // "text/plain"
 });
 
-// Provide required services and run
-const result = await program.pipe(
+// Run with required services
+program.pipe(
+  Effect.provide(FetchHttpClient.layer),
   Effect.provideService(Region, "us-east-1"),
-  Effect.provide(NodeProviderChainCredentialsLive),
+  Effect.provide(Credentials.fromChain()),
   Effect.runPromise,
 );
-
-console.log(result.ContentType); // "text/plain"
 ```
+
+## Importing Services
+
+Import service modules as namespaces:
+
+```typescript
+import * as s3 from "effect-aws/s3";
+import * as dynamodb from "effect-aws/dynamodb";
+import * as lambda from "effect-aws/lambda";
+import * as kms from "effect-aws/kms";
+import * as sfn from "effect-aws/sfn";
+
+// Then use operations via the namespace
+s3.getObject({ Bucket: "my-bucket", Key: "file.txt" });
+dynamodb.getItem({ TableName: "users", Key: { ... } });
+lambda.invoke({ FunctionName: "my-function" });
+```
+
+## Configuration
+
+All operations require three context services: `Region`, `Credentials`, and `HttpClient`.
+
+### Region
+
+The AWS region to use for API calls:
+
+```typescript
+import { Region } from "effect-aws";
+
+Effect.provideService(Region, "us-east-1")
+```
+
+### Credentials
+
+AWS credentials for signing requests. Multiple providers are available:
+
+```typescript
+import { Credentials } from "effect-aws";
+
+// AWS credential provider chain (recommended for production)
+// Checks: env vars → SSO → shared credentials → EC2/ECS metadata
+Effect.provide(Credentials.fromChain())
+
+// Environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+Effect.provide(Credentials.fromEnv())
+
+// SSO profile from ~/.aws/config
+Effect.provide(Credentials.fromSSO("my-profile"))
+
+// Shared credentials file (~/.aws/credentials)
+Effect.provide(Credentials.fromIni())
+
+// EC2 instance metadata
+Effect.provide(Credentials.fromInstanceMetadata())
+
+// ECS container credentials
+Effect.provide(Credentials.fromContainerMetadata())
+
+// Web identity token (for EKS)
+Effect.provide(Credentials.fromWebToken({ roleArn: "...", webIdentityToken: "..." }))
+
+// Mock credentials (for testing with LocalStack)
+Effect.provide(Credentials.mock)
+```
+
+### HTTP Client
+
+Requires an HTTP client from `@effect/platform`:
+
+```typescript
+import { FetchHttpClient } from "@effect/platform";
+// or for Node.js
+import { NodeHttpClient } from "@effect/platform-node";
+
+Effect.provide(FetchHttpClient.layer)
+// or
+Effect.provide(NodeHttpClient.layer)
+```
+
+### Custom Endpoint
+
+For LocalStack or other custom endpoints:
+
+```typescript
+import { Endpoint } from "effect-aws";
+
+Effect.provideService(Endpoint, "http://localhost:4566")
+```
+
+## Complete Examples
+
+### S3 with streaming
+
+```typescript
+import { Console, Effect, Stream } from "effect";
+import { FetchHttpClient } from "@effect/platform";
+import * as s3 from "effect-aws/s3";
+import { Credentials, Region } from "effect-aws";
+
+const program = Effect.gen(function* () {
+  const bucket = "my-test-bucket";
+
+  // Create bucket
+  yield* s3.createBucket({ Bucket: bucket });
+
+  // Upload with string body
+  yield* s3.putObject({
+    Bucket: bucket,
+    Key: "message.txt",
+    Body: "Hello from effect-aws!",
+    ContentType: "text/plain",
+  });
+
+  // Download and stream response
+  const result = yield* s3.getObject({ Bucket: bucket, Key: "message.txt" });
+
+  // Body is a Stream<Uint8Array> - collect and decode
+  const content = yield* result.Body!.pipe(
+    Stream.decodeText(),
+    Stream.mkString,
+  );
+  yield* Console.log(content); // "Hello from effect-aws!"
+
+  // Cleanup
+  yield* s3.deleteBucket({ Bucket: bucket });
+});
+
+program.pipe(
+  Effect.provide(FetchHttpClient.layer),
+  Effect.provideService(Region, "us-east-1"),
+  Effect.provide(Credentials.fromChain()),
+  Effect.runPromise,
+);
+```
+
+### DynamoDB
+
+DynamoDB uses `AttributeValue` tagged unions for item data:
+
+```typescript
+import { Console, Effect } from "effect";
+import { FetchHttpClient } from "@effect/platform";
+import * as dynamodb from "effect-aws/dynamodb";
+import { Credentials, Region } from "effect-aws";
+
+const program = Effect.gen(function* () {
+  // Put item - values use AttributeValue format: { S: string }, { N: string }, { BOOL: boolean }
+  yield* dynamodb.putItem({
+    TableName: "users",
+    Item: {
+      pk: { S: "user#123" },
+      sk: { S: "profile" },
+      name: { S: "John Doe" },
+      age: { N: "30" },
+      active: { BOOL: true },
+    },
+  });
+
+  // Get item
+  const result = yield* dynamodb.getItem({
+    TableName: "users",
+    Key: {
+      pk: { S: "user#123" },
+      sk: { S: "profile" },
+    },
+  });
+
+  const name = (result.Item?.name as { S: string })?.S;
+  yield* Console.log(name); // "John Doe"
+
+  // Query by partition key
+  const queryResult = yield* dynamodb.query({
+    TableName: "users",
+    KeyConditionExpression: "pk = :pk",
+    ExpressionAttributeValues: {
+      ":pk": { S: "user#123" },
+    },
+  });
+
+  yield* Console.log(queryResult.Count); // 1
+});
+
+program.pipe(
+  Effect.provide(FetchHttpClient.layer),
+  Effect.provideService(Region, "us-east-1"),
+  Effect.provide(Credentials.fromChain()),
+  Effect.runPromise,
+);
+```
+
+### LocalStack Testing
+
+```typescript
+import { Effect } from "effect";
+import { FetchHttpClient } from "@effect/platform";
+import * as s3 from "effect-aws/s3";
+import { Credentials, Endpoint, Region } from "effect-aws";
+
+const program = s3.listBuckets({});
+
+program.pipe(
+  Effect.provide(FetchHttpClient.layer),
+  Effect.provideService(Region, "us-east-1"),
+  Effect.provideService(Endpoint, "http://localhost:4566"),
+  Effect.provide(Credentials.mock),
+  Effect.runPromise,
+);
+```
+
+## Error Handling
+
+All operations return typed errors that can be pattern-matched:
+
+```typescript
+import { Effect } from "effect";
+import * as s3 from "effect-aws/s3";
+
+const program = s3.getObject({
+  Bucket: "my-bucket",
+  Key: "missing-file.txt",
+}).pipe(
+  Effect.catchTags({
+    NoSuchKey: (error) =>
+      Effect.succeed({ found: false, message: "File not found" }),
+    InvalidObjectState: (error) =>
+      Effect.fail(new Error(`Object in ${error.StorageClass} storage`)),
+  }),
+);
+```
+
+## Streaming
+
+### Streaming Uploads
+
+```typescript
+import { Effect, Stream } from "effect";
+import * as s3 from "effect-aws/s3";
+
+// Create a stream from chunks
+const chunks = ["Hello, ", "streaming ", "world!"];
+const encoder = new TextEncoder();
+const stream = Stream.fromIterable(chunks.map((s) => encoder.encode(s)));
+
+const upload = s3.putObject({
+  Bucket: "my-bucket",
+  Key: "streamed.txt",
+  Body: stream,
+  ContentLength: chunks.reduce((acc, s) => acc + encoder.encode(s).length, 0),
+  ContentType: "text/plain",
+});
+```
+
+### Streaming Downloads
+
+```typescript
+import { Effect, Stream, Sink } from "effect";
+import * as s3 from "effect-aws/s3";
+
+const download = Effect.gen(function* () {
+  const result = yield* s3.getObject({
+    Bucket: "my-bucket",
+    Key: "large-file.zip",
+  });
+
+  // Body is Stream<Uint8Array>
+  yield* Stream.run(
+    result.Body!,
+    Sink.forEach((chunk) => Effect.sync(() => process.stdout.write(chunk)))
+  );
+});
+```
+
+---
 
 ## Architecture
 
@@ -80,9 +364,9 @@ Smithy traits are modeled 1:1 with Effect Schema annotations in [`src/traits.ts`
 | `@streaming` | `T.Streaming()` | Streaming blob type |
 | `@contextParam` | `T.ContextParam("Bucket")` | Endpoint resolution parameter |
 
-## Generated Code Examples
+### Generated Code Examples
 
-### Request Schema
+#### Request Schema
 
 Request schemas are Effect `S.Class` definitions with HTTP binding annotations:
 
@@ -118,7 +402,7 @@ export class GetObjectRequest extends S.Class<GetObjectRequest>(
 ) {}
 ```
 
-### Output Schema
+#### Output Schema
 
 Response schemas extract data from headers and body:
 
@@ -143,7 +427,7 @@ export class GetObjectOutput extends S.Class<GetObjectOutput>(
 ) {}
 ```
 
-### Error Schema
+#### Error Schema
 
 Errors are `S.TaggedError` classes for typed error handling:
 
@@ -159,7 +443,7 @@ export class InvalidObjectState extends S.TaggedError<InvalidObjectState>()(
 ) {}
 ```
 
-### Operation Definition
+#### Operation Definition
 
 Operations tie input, output, and errors together:
 
@@ -181,11 +465,11 @@ The `API.make()` function ([`src/api.ts`](./src/api.ts)) creates an Effect-retur
 6. Makes the HTTP request
 7. Deserializes the response or error
 
-## Protocols
+### Protocols
 
 All AWS protocols are implemented in [`src/protocols/`](./src/protocols/):
 
-### REST-XML (`aws.protocols#restXml`)
+#### REST-XML (`aws.protocols#restXml`)
 
 Used by: **S3**, **CloudFront**, **Route 53**
 
@@ -193,172 +477,38 @@ Used by: **S3**, **CloudFront**, **Route 53**
 - Request/response bodies serialized as XML
 - Supports `@xmlName`, `@xmlFlattened`, `@xmlAttribute`, `@xmlNamespace` traits
 - HTTP binding traits for headers, query params, and path labels
-- Error responses wrapped in `<ErrorResponse><Error>...</Error></ErrorResponse>`
 
-```typescript
-// Request serialization
-headers: { "Content-Type": "application/xml" }
-body: "<CreateBucketConfiguration xmlns=\"...\">...</CreateBucketConfiguration>"
-
-// Response deserialization
-// Parses XML body and extracts header-bound values
-```
-
-### REST-JSON (`aws.protocols#restJson1`)
+#### REST-JSON (`aws.protocols#restJson1`)
 
 Used by: **Lambda**, **API Gateway**, **DynamoDB Streams**, **Glacier**
 
 - HTTP methods based on `@http` trait
 - Request/response bodies serialized as JSON
-- `@jsonName` trait for custom property keys (via `S.fromKey`)
+- `@jsonName` trait for custom property keys
 - Default timestamp format: `epoch-seconds`
-- HTTP binding traits for headers, query params, and path labels
-- Error code from `x-amzn-errortype` header or body `__type` field
 
-```typescript
-// Request serialization
-headers: { "Content-Type": "application/json" }
-body: JSON.stringify({ functionName: "my-func", payload: "..." })
-
-// Response deserialization
-// Parses JSON body and extracts header-bound values
-```
-
-### AWS JSON 1.0 & 1.1 (`aws.protocols#awsJson1_0`, `aws.protocols#awsJson1_1`)
+#### AWS JSON 1.0 & 1.1 (`aws.protocols#awsJson1_0`, `aws.protocols#awsJson1_1`)
 
 Used by: **DynamoDB** (1.0), **SQS** (1.0), **SNS** (1.0), **STS** (1.1), **KMS** (1.1)
 
 - All requests: `POST /`
-- Target operation via `X-Amz-Target: ServiceName.OperationName` header
+- Target operation via `X-Amz-Target` header
 - Request/response bodies always JSON
-- HTTP binding traits are ignored
-- Default timestamp format: `epoch-seconds`
 - Content-Type: `application/x-amz-json-1.0` or `application/x-amz-json-1.1`
 
-```typescript
-// Request serialization
-method: "POST"
-path: "/"
-headers: {
-  "Content-Type": "application/x-amz-json-1.1",
-  "X-Amz-Target": "DynamoDB_20120810.GetItem"
-}
-body: JSON.stringify({ TableName: "users", Key: { ... } })
-```
-
-### AWS Query (`aws.protocols#awsQuery`)
+#### AWS Query (`aws.protocols#awsQuery`)
 
 Used by: **IAM**, **STS**, **SES**, **CloudWatch**, **Auto Scaling**, **Elastic Load Balancing**
 
 - All requests: `POST /` with `application/x-www-form-urlencoded` body
 - `Action` and `Version` parameters identify the operation
-- Query key names from `@xmlName` trait or member name
-- Lists use `.member.N` format by default
-- Maps use `.entry.N.key` and `.entry.N.value` format
-- Response wrapped in `<{Op}Response><{Op}Result>...</{Op}Result></...>`
-- Errors wrapped in `<ErrorResponse><Error><Code>...</Code></Error></ErrorResponse>`
 
-```typescript
-// Request serialization
-method: "POST"
-path: "/"
-headers: { "Content-Type": "application/x-www-form-urlencoded" }
-body: "Action=GetUser&Version=2010-05-08&UserName=johndoe"
-
-// Response (XML)
-<GetUserResponse xmlns="...">
-  <GetUserResult>
-    <User><UserName>johndoe</UserName>...</User>
-  </GetUserResult>
-</GetUserResponse>
-```
-
-### EC2 Query (`aws.protocols#ec2Query`)
+#### EC2 Query (`aws.protocols#ec2Query`)
 
 Used by: **EC2**
 
 - Similar to AWS Query but with EC2-specific conventions
 - Uses `@ec2QueryName` trait for custom query key names
-- All lists are flattened (no `.member.` wrapper)
-- Query keys have first letter capitalized
-- Response root is `{OperationName}Response` (no result wrapper)
-- Errors wrapped in `<Response><Errors><Error>...</Error></Errors></Response>`
-
-```typescript
-// Request serialization
-method: "POST"
-path: "/"
-headers: { "Content-Type": "application/x-www-form-urlencoded" }
-body: "Action=DescribeInstances&Version=2016-11-15&InstanceId.1=i-12345"
-```
-
-## Streaming
-
-The SDK provides first-class streaming support for large payloads:
-
-### Streaming Uploads
-
-```typescript
-import * as Stream from "effect/Stream";
-import { S3 } from "effect-aws/s3";
-
-// Stream from a file
-const fileStream = Stream.fromReadableStream(
-  () => Bun.file("large-file.zip").stream(),
-  () => new Error("Stream error"),
-);
-
-await S3.putObject({
-  Bucket: "my-bucket",
-  Key: "large-file.zip",
-  Body: fileStream,
-  ContentType: "application/zip",
-}).pipe(
-  Effect.provideService(Region, "us-east-1"),
-  Effect.provide(NodeProviderChainCredentialsLive),
-  Effect.runPromise,
-);
-```
-
-### Streaming Downloads
-
-```typescript
-const result = await S3.getObject({
-  Bucket: "my-bucket",
-  Key: "large-file.zip",
-}).pipe(
-  Effect.provideService(Region, "us-east-1"),
-  Effect.provide(NodeProviderChainCredentialsLive),
-  Effect.runPromise,
-);
-
-// result.Body is a Stream.Stream<Uint8Array, Error, never>
-await Stream.run(
-  result.Body!,
-  Sink.forEach((chunk) => Effect.sync(() => process.stdout.write(chunk))),
-);
-```
-
-## Error Handling
-
-All operations return typed errors that can be pattern-matched:
-
-```typescript
-import { Effect, Match } from "effect";
-import { S3 } from "effect-aws/s3";
-
-const program = S3.getObject({
-  Bucket: "my-bucket",
-  Key: "missing-file.txt",
-}).pipe(
-  Effect.catchTags({
-    NoSuchKey: (error) =>
-      Effect.succeed({ found: false, key: "missing-file.txt" }),
-    InvalidObjectState: (error) =>
-      Effect.fail(new Error(`Object in ${error.StorageClass} storage`)),
-  }),
-);
-```
 
 ## Testing
 
@@ -379,4 +529,3 @@ bun test:local ./test/services/
 ## License
 
 MIT
-
