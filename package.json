@@ -25,7 +25,8 @@
     "test:services:live": "bun test:live ./test/services/",
     "format": "bun oxfmt ./scripts ./src ./test",
     "find:errors": "bun run scripts/find-errors.ts",
-    "symlink": "bun run scripts/symlink.ts"
+    "symlink": "bun run scripts/symlink.ts",
+    "bundle:report": "bun run scripts/bundle-size-report.ts"
   },
   "exports": {
     "./*": {
